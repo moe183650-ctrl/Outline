@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN MMHUB - Outline</title>
+    <style>
+        body { background-color: #0d1117; color: white; font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #161b22; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid #30363d; width: 80%; max-width: 400px; }
+        .btn { background-color: #238636; color: white; padding: 14px 20px; border-radius: 6px; text-decoration: none; display: block; font-weight: bold; margin-top: 20px; transition: 0.2s; }
+        .btn:hover { background-color: #2ea043; }
+        .btn.disabled { background-color: #444; pointer-events: none; }
+        h2 { margin-top: 0; color: #58a6ff; font-size: 28px; }
+        p { color: #8b949e; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>VPN MMHUB</h2>
+        <p id="status-text">Detecting your access key...</p>
+        
+        <a href="#" id="outline-link" class="btn disabled">
+            Open With Outline VPN
+        </a>
+    </div>
+
+    <script>
+        // 获取网址中 ?key= 后面内容的方法
+        function getUrlParameter(name) {
+            const results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results ? results[1] : null;
+        }
+
+        const keyParam = getUrlParameter('key');
+        const linkBtn = document.getElementById('outline-link');
+        const statusText = document.getElementById('status-text');
+
+        if (keyParam) {
+            // 如果网址里有 key，就解码并放入按钮
+            const fullKey = decodeURIComponent(keyParam);
+            linkBtn.href = fullKey;
+            linkBtn.classList.remove('disabled');
+            statusText.innerText = "Click the button below to import your personal access key.";
+        } else {
+            // 如果网址里没 key，提示错误
+            statusText.innerHTML = "<span style='color:#f85149;'>Error: No access key found in URL.</span>";
+            linkBtn.innerText = "Invalid Link";
+        }
+    </script>
+</body>
+</html>
